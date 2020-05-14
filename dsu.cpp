@@ -3,7 +3,7 @@
 #define MOD 1000000007
 #define N 1000001
 using namespace std;
-class Graph {
+/*class Graph {
 	int V;
 	list<int>*adjList;
 public:
@@ -27,41 +27,34 @@ public:
 			cout << endl;
 		}
 	}
-	void dfsHelper(int src, map<int, bool> &visited, int *flag, int parentFlag, int &check) {
-		visited[src] = true;
-		if (parentFlag == 0) {
-			flag[src] = 1;
+
+};*/
+struct dsu {
+	vector<int>parent;
+	void init(int n) {
+		parent.resize(n);
+		for (int i = 0; i < n; i++) {
+			parent[i] = i;
 		}
-		else if (parentFlag == 1) {
-			flag[src] = 2;
+	}
+
+	int get_superParent(int x) {
+		if (x == parent[x]) {
+			return x;
 		}
 		else {
-			flag[src] = 1;
+			return parent[x] = get_superParent(parent[x]);
 		}
-		for (auto neighbour : adjList[src]) {
-			if (!visited[neighbour]) {
-				dfsHelper(neighbour, visited, flag, flag[src], check);
-			}
-			else {
-				if (flag[src] == flag[neighbour]) {
-					check = 1;
-				}
-			}
+	}
+	void union(int x, int y) {
+		super_parent_x = get_superParent(x);
+		super_parent_y = get_superParent(y);
+		if (super_parent_x != super_parent_y) {
+			parent[x] = super_parent_y;
 		}
 	}
 
-	void dfs() {
-		map<int, bool> visited;
-		for (int i = 0; i < V; i++) {
-			visited[i] = false;
-		}
-		int flag[V];
-		int check = 0;
-		dfsHelper(0, visited, flag, 0, check);
-		cout << check << "\n";
-	}
 };
-
 int32_t main() {
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
@@ -70,9 +63,7 @@ int32_t main() {
 	freopen("input.txt", "r", stdin);
 	freopen("output.txt", "w", stdout);
 #endif
-	Graph g(2);
-	g.addEdge(0, 1);
-	g.dfs();
+
 
 
 	return 0;

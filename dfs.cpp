@@ -46,7 +46,7 @@ public:
 		dfs(src, visited);
 	}
 
-}
+};
 
 int32_t main() {
 #ifndef ONLINE_JUDGE

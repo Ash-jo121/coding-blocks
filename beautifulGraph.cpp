@@ -1,7 +1,8 @@
 #include<bits/stdc++.h>
 #define int long long
-#define MOD 1000000007
+#define MOD 998244353
 #define N 1000001
+#define vi vector<int>
 using namespace std;
 class Graph {
 	int V;
@@ -50,7 +51,7 @@ public:
 		}
 	}
 
-	void dfs() {
+	int dfs() {
 		map<int, bool> visited;
 		for (int i = 0; i < V; i++) {
 			visited[i] = false;
@@ -58,7 +59,7 @@ public:
 		int flag[V];
 		int check = 0;
 		dfsHelper(0, visited, flag, 0, check);
-		cout << check << "\n";
+		return check;
 	}
 };
 
@@ -70,9 +71,31 @@ int32_t main() {
 	freopen("input.txt", "r", stdin);
 	freopen("output.txt", "w", stdout);
 #endif
-	Graph g(2);
-	g.addEdge(0, 1);
-	g.dfs();
+	int t;
+	cin >> t;
+	while (t--) {
+		int n, m;
+		cin >> n > m;
+		Graph g(n);
+		while (m--) {
+			cin >> s >> e;
+			g.addEdge(s, e);
+		}
+		int check = g.dfs();
+		int ans = 0;
+		if (check == 1) {
+			//Not a bipartite graph
+			ans = 0;
+		}
+		else {
+			ans = ((n % MOD) * ((n - 1) % MOD)) % MOD;
+			ans = ((2 % MOD) * (ans % MOD)) % MOD;
+		}
+		cout << ans << "\n";
+	}
+
+
+
 
 
 	return 0;

@@ -2,6 +2,7 @@
 #define int long long
 #define MOD 1000000007
 #define N 1000001
+#define vi vector<int>
 using namespace std;
 class Graph {
 	int V;
@@ -12,11 +13,8 @@ public:
 		adjList = new list<int>[V];
 
 	}
-	void addEdge(int u, int v, bool bidir = true) {
+	void addEdge(int u, int v) {
 		adjList[u].push_back(v);
-		if (bidir) {
-			adjList[v].push_back(u);
-		}
 	}
 	void printAdjList() {
 		for (int i = 0; i < V; i++) {
@@ -27,41 +25,28 @@ public:
 			cout << endl;
 		}
 	}
-	void dfsHelper(int src, map<int, bool> &visited, int *flag, int parentFlag, int &check) {
+	void dfsHelper(int src, map<int, bool> &visited, list<int> &ordering) {
 		visited[src] = true;
-		if (parentFlag == 0) {
-			flag[src] = 1;
-		}
-		else if (parentFlag == 1) {
-			flag[src] = 2;
-		}
-		else {
-			flag[src] = 1;
-		}
 		for (auto neighbour : adjList[src]) {
 			if (!visited[neighbour]) {
-				dfsHelper(neighbour, visited, flag, flag[src], check);
-			}
-			else {
-				if (flag[src] == flag[neighbour]) {
-					check = 1;
-				}
+				dfsHelper(neighbour, visited, ordering);
 			}
 		}
+		list.push_front(src);
 	}
-
-	void dfs() {
+	void dfs(int src) {
 		map<int, bool> visited;
+		list<int>ordering;
 		for (int i = 0; i < V; i++) {
 			visited[i] = false;
 		}
-		int flag[V];
-		int check = 0;
-		dfsHelper(0, visited, flag, 0, check);
-		cout << check << "\n";
+		for (auto p : adjList) {
+			int src = p.first;
+			dfsHelper(src, visited, ordering);
+		}
 	}
-};
 
+};
 int32_t main() {
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
@@ -70,9 +55,7 @@ int32_t main() {
 	freopen("input.txt", "r", stdin);
 	freopen("output.txt", "w", stdout);
 #endif
-	Graph g(2);
-	g.addEdge(0, 1);
-	g.dfs();
+
 
 
 	return 0;

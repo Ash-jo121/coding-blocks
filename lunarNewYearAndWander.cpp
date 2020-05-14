@@ -2,15 +2,15 @@
 #define int long long
 #define MOD 1000000007
 #define N 1000001
+#define vi vector<int>
 using namespace std;
 class Graph {
 	int V;
-	list<int>*adjList;
+	list<int> *adjList;
 public:
 	Graph(int v) {
 		V = v;
-		adjList = new list<int>[V];
-
+		adjList = new list<int>[V + 1];
 	}
 	void addEdge(int u, int v, bool bidir = true) {
 		adjList[u].push_back(v);
@@ -27,23 +27,21 @@ public:
 			cout << endl;
 		}
 	}
-	void bfs(int src, int n, int &ans) {
-		vector<int>dis(n + 1, INT_MAX);
-		queue<int>q;
+
+	void bfs(int src) {
+		priority_queue<int, vector<int>, greater<int> > q;
+		bool *visited = new bool[V + 1] {0};
 		q.push(src);
-		dis[src] = 0;
+		visited[src] = true;
 		while (!q.empty()) {
-			int cur = q.front();
+			int node = q.top();
+			cout << node << " ";
 			q.pop();
-			for (auto neighbour : adjList[cur]) {
-				if (dis[neighbour] == INT_MAX) {
-					//node not visited
+
+			for (int neighbour : adjList[node]) {
+				if (!visited[neighbour]) {
 					q.push(neighbour);
-					dis[neighbour] = dis[cur] + 1;
-				}
-				else if (dis[neighbour] >= dis[cur]) {
-					//backedge
-					ans = min(ans, dis[neighbour] + dis[cur] + 1);
+					visited[neighbour] = true;
 				}
 			}
 		}
@@ -52,19 +50,22 @@ public:
 
 
 int32_t main() {
-#ifndef ONLINE_JUDGE
-	freopen("input.txt", "r", stdin);
-	freopen("output.txt", "w", stdout);
-#endif
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
-
-
-	//Iterate over each element with bfs function
-	for (int i = 0; i < n; i++) {
-
+	cout.tie(NULL);
+	/*#ifndef ONLINE_JUDGE
+		freopen("input.txt", "r", stdin);
+		freopen("output.txt", "w", stdout);
+	#endif*/
+	int n, m;
+	cin >> n >> m;
+	Graph g(n);
+	while (m--) {
+		int x, y;
+		cin >> x >> y;
+		g.addEdge(x, y);
 	}
-
+	g.bfs(1);
 
 
 
