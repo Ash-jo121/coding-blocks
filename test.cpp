@@ -13,17 +13,8 @@ int32_t main() {
 	freopen("input.txt", "r", stdin);
 	freopen("output.txt", "w", stdout);
 #endif
-	vector<int> v;
-	v.pb(2);
-	v.pb(4);
-	v.pb(3);
-	v.pb(5);
-	v.pb(7);
-	v.pb(8);
-	for (int neighbour : v) {
-		cout << neighbour << " ";
-	}
-
+	int a[] = {1, 2, 3, 4, 5, 6};
+	cout << a[-1] << "\n";
 
 
 
